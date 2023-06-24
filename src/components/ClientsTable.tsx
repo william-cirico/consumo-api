@@ -1,10 +1,10 @@
-import { Button, Space, Table, Tag } from "antd";
-import { ColumnsType } from "antd/es/table";
+import { Button, Popconfirm, Space, Table, Tag } from "antd";
+import { ColumnsType, TableProps } from "antd/es/table";
 import { Client } from "../types/client";
 import dayjs from "dayjs";
 import { EyeOutlined, DeleteOutlined } from "@ant-design/icons";
 
-export function ClientsTable() {
+export function ClientsTable(props: TableProps<any>) {
     function renderSex(sex: string) {
         if (sex === "M") {
             return <Tag color="#108ee9">Masculino</Tag>
@@ -37,21 +37,26 @@ export function ClientsTable() {
             align: "center",
             render: () => <Space>
                 <Button type="primary" title="visualizar detalhes do cliente" icon={<EyeOutlined />} />
-                <Button type="primary" danger icon={<DeleteOutlined />} />
+                <Popconfirm 
+                    title="Atenção" 
+                    description="Tem certeza que deseja remover o cliente?"
+                    okText="Sim"
+                    cancelText="Não"
+                >
+                    <Button type="primary" danger icon={<DeleteOutlined />} />
+                </Popconfirm>
             </Space>
         }
-    ]; 
+    ];
 
     return (
-        <Table 
+        <Table
+            {...props}
             columns={columns}
             locale={{
                 emptyText: "sem clientes cadastrados"
             }}
-            dataSource={[
-                { id: 1, name: "Will", sex: "M", birthdate: "2000-03-26", cep: "890000-000", city: "Blumenau", state: "SC"},
-                { id: 2, name: "Ana", sex: "F", birthdate: "2000-03-26", cep: "890000-000", city: "Blumenau", state: "SC"}
-            ]}
+            rowKey={"id"}
         />
     );
 }

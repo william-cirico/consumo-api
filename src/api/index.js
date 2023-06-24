@@ -1,5 +1,6 @@
 const express = require("express");
 const morgan = require("morgan");
+const cors = require("cors");
 
 const PORT = 8080;
 const app = express();
@@ -7,6 +8,9 @@ const app = express();
 // Adicionar o middleware para conversão do body
 app.use(express.json());
 app.use(morgan("dev"));
+app.use(cors({
+    origin: "*"
+}));
 
 const clients = [];
 
