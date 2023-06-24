@@ -1,11 +1,13 @@
-import './App.css'
-import { ListClientsPage } from './pages/ListClientsPage'
+import React from 'react'
+import './App.css';
+import { RouterProvider } from "react-router-dom";
+import { router } from './routes';
 
 function App() {
   return (
-    <>
-      <ListClientsPage />
-    </>
+    <React.StrictMode>
+      <RouterProvider router={router} />
+    </React.StrictMode>
   )
 }
 
