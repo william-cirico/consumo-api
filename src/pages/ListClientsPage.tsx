@@ -27,11 +27,21 @@ export function ListClientsPage() {
         getClients();
     }, []);
 
+    function removeClient(id: number) {
+        axios.delete(`http://localhost:8080/clients/${id}`)
+            .then(() => {
+                const filteredClient = clients.filter(client => client.id !== id);
+
+                setClients(filteredClient);
+            })
+            .catch(() => notification.error({ message: "Erro", description: "Não foi possível remover o cliente" }))
+    }
+
     return (
         <div>
             <Typography.Title>Listagem de Clientes</Typography.Title>
             <Divider />
-            <ClientsTable dataSource={clients} loading={loading} />
+            <ClientsTable onRemoveClient={removeClient} dataSource={clients} loading={loading} />
             <FloatButton tooltip="Adicionar cliente" type="primary" shape="square" icon={<PlusOutlined />} />
         </div>
     );

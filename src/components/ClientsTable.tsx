@@ -1,10 +1,14 @@
+import { DeleteOutlined, EyeOutlined } from "@ant-design/icons";
 import { Button, Popconfirm, Space, Table, Tag } from "antd";
 import { ColumnsType, TableProps } from "antd/es/table";
-import { Client } from "../types/client";
 import dayjs from "dayjs";
-import { EyeOutlined, DeleteOutlined } from "@ant-design/icons";
+import { Client } from "../types/client";
 
-export function ClientsTable(props: TableProps<any>) {
+type Props = TableProps<any> & {
+    onRemoveClient: (id: number) => void;
+}
+
+export function ClientsTable(props: Props) {
     function renderSex(sex: string) {
         if (sex === "M") {
             return <Tag color="#108ee9">Masculino</Tag>
@@ -35,13 +39,14 @@ export function ClientsTable(props: TableProps<any>) {
         {
             key: "actions",
             align: "center",
-            render: () => <Space>
+            render: (_, record) => <Space>
                 <Button type="primary" title="visualizar detalhes do cliente" icon={<EyeOutlined />} />
                 <Popconfirm 
                     title="Atenção" 
                     description="Tem certeza que deseja remover o cliente?"
                     okText="Sim"
                     cancelText="Não"
+                    onConfirm={() => props.onRemoveClient(record.id)}
                 >
                     <Button type="primary" danger icon={<DeleteOutlined />} />
                 </Popconfirm>
